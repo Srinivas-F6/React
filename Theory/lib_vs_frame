@@ -1,0 +1,15 @@
+Library (e.g., jQuery, Axios)
+A library is a set of pre-written code that helps you with specific tasks.
+You are in charge of the application's flow — you decide when to use the library and how.
+
+
+
+Framework(e.g. Django, springboot)
+A framework provides a structured way to build your web app.
+It defines how your app should be built — you follow its rules and patterns.
+The framework may call your code at certain points (Inversion of Control).
+
+
+
+
+<!-- npm install react-router-dom -->

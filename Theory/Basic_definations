@@ -1,0 +1,86 @@
+1️⃣ What is React.js?
+✅ Definition:
+React.js is a JavaScript library for building user interfaces, especially single-page web apps. It lets you create reusable UI components and manage the state of your app easily.
+
+🧠 Key Idea:
+Break your UI into small components
+
+Handle dynamic changes without reloading the page
+
+Fast and responsive using virtual DOM
+
+
+
+
+
+
+
+
+2️⃣ What are Components?
+✅ Definition:
+A component in React is a reusable block of UI — like a function that returns HTML (JSX). There are two types:
+
+Functional components (modern way)
+
+Class components (older way, less used now)
+
+🧠 Why Use Components?
+They make your code organized, readable, and reusable.
+
+
+
+
+
+
+3️⃣ Props & State
+🧩 Props (short for "properties")
+Passed from parent to child component
+
+Read-only
+
+Used to customize components
+
+📦 State
+Data that can change in a component
+
+Managed inside the component using useState()
+
+React re-renders UI when state changes
+
+
+
+
+4️⃣ What are Hooks?
+✅ Definition:
+Hooks are special functions that let you use React features like state, lifecycle, and context in functional components.
+
+Common Hooks:
+useState() – for state
+
+useEffect() – for side effects
+
+useContext(), useRef(), etc.
+
+
+
+
+
+
+
+
+6️⃣ Routes & Dynamic Changes
+✅ What is Routing?
+React apps are single-page applications (SPAs). Instead of full page reloads, React Router allows you to navigate between different views (pages) dynamically.
+
+Library used: React Router DOM
+
+
+
+
+
+
+
+
+
+
+
