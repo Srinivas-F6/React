@@ -1,0 +1,45 @@
+*{
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+body{
+  font-family: Arial, Helvetica, sans-serif;  
+  background: black;
+}
+.NavBarsection{
+    display: flex;
+    align-items: center;
+    padding: 13px;
+    background: rgb(50, 158, 93);
+    box-shadow: 0px 2px 5px rgb(69, 188, 105)
+}
+.left{
+  font-size: 30px;
+  margin-left: 150px;
+  font-weight: bolder;
+  text-align: center;
+}
+.left-img{
+  border-radius: 50px;
+  background-color: aliceblue;
+}
+.right {
+    margin-left: auto;
+    margin-right: 40px;
+    background-color: rgb(50, 158, 93);
+}
+.right nav{
+  display: flex;
+ 
+}
+.right nav ul{
+     display: flex;
+     gap: 35px;
+     margin-right: 20px;
+     list-style: none;
+}
+.right nav ul li a{
+  text-decoration: none;
+  font-size: large;
+}

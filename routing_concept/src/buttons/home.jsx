@@ -15,7 +15,7 @@ function Home(){
           onChange={(e)=>{
                 setName(e.target.value)
           }} value={name}/>
-          <button onClick={()=>{GoToUserPage()}} >Proceed</button>
+          <button onClick={GoToUserPage} >Proceed</button>
         </>
     )
     
