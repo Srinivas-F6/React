@@ -1,0 +1,12 @@
+Axios is a popular JavaScript library used to make HTTP requests from:
+the browser (frontend, e.g., React, Vue, Angular)
+or Node.js (backend).
+It’s built on top of Promises (so it works well with async/await) and is often used to interact with APIs (like fetching data, sending data, updating, or deleting).
+
+Why use Axios (instead of fetch)?
+✅ Easier syntax than the native fetch() API.
+✅ Supports old browsers (fetch is not supported everywhere).
+✅ Automatic JSON handling → Converts response data to JSON automatically.
+✅ Request & response interceptors → You can attach logic before requests (e.g., adding auth tokens).
+✅ Error handling → Cleaner and easier to manage.
+✅ Cancel requests if needed.

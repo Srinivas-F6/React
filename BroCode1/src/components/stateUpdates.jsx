@@ -1,7 +1,7 @@
 import React,{useState} from "react";
 
 function StateUpdates(){
-    const[vehicle,setVehicle] = useState([]);
+const[vehicle,setVehicle] = useState([]);
 const[type,setType] = useState("");
 const[number,setNumber] = useState(1010);
 

@@ -40,7 +40,7 @@ function Useeffect(){
     return(
        <>
         <p>count:{count}</p>
-        <button onClick={increaseCount}>Add</button>
+        <button onClick={increaseCount}>Adding</button>
         <button onClick={decreaseCount}>Subract</button>
        </>
     )
