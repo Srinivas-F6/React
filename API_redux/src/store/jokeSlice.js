@@ -1,4 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit'
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
 
 const jokeSlice = createSlice({
 
@@ -7,11 +9,10 @@ const jokeSlice = createSlice({
        count:0
     },
     reducers:{
-        increment: (state, action)=>{
-            state.count++;
-        }
-    }
+    },
+    extraReducers:{
 
+    }
 
 })
 
