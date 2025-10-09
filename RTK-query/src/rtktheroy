@@ -1,0 +1,141 @@
+----------------------------RTK Query-----------------------
+RTK Query is a powerful data fetching and caching tool built into Redux Toolkit.
+
+
+It helps for 
+
+Fetch data from APIs
+Cache and share the data automatically
+Handle loading, success, and error states
+Re-fetch and update data easily
+Reduce boilerplate code (no more manual thunk or reducers)
+
+
+
+Main concepts in RTK Query
+
+1. createApi  -  The main entry point for defining an API service.
+2. baseQuery  -  The function that performs the actual API request
+3. endpoints  -  Define how to fetch or modify data (queries & mutations)
+4. query      -  for Fetching data(GET requests) 
+5. mutation   -  For modifying data (POST, PUT, DELETE requests)
+6. auto caching & invalidation  -  How RTK Query caches data and knows when to refetch
+7. hooks generation  -  Automatically generated hooks for use in React components
+
+
+
+
+
+
+
+
+
+
+
+Concept	             What It Controls	             Industrial Purpose
+createApi	           Defines API service	           Centralizes API logic
+baseQuery	           Handles request transport	   Standardizes backend communication
+endpoints	           Defines API operations	       Encapsulates logic for each resource
+builder.query()	       Fetch (GET) data	               Read operations with auto cache
+builder.mutation()	   Send/update data	               Write operations with refetch support
+providesTags	       Labels cached data	           Enables auto refresh
+invalidatesTags	       Marks data stale	               Ensures consistency after updates
+keepUnusedDataFor	   Cache duration	               Balances memory vs performance
+refetchOnFocus	       Refresh on tab focus	           Keeps data fresh
+refetchOnReconnect	   Refresh on network reconnect	   Ensures reliability
+Auto Hooks	           Prebuilt React hooks	           Removes boilerplate
+Auto Cache	           Shared data	                   Boosts performance
+
+
+
+
+
+The keywords inside the createApi
+
+
+1.createApi: 
+  In Redux Toolkit Query (RTK Query), createApi is a function used to define and manage API endpoints — like fetching, posting, updating, or deleting data — with caching, loading, and error handling built-in.
+
+     You can think of createApi as a replacement for:
+       1.createSlice → to store API data
+       2.createAsyncThunk → to handle async calls
+       3.extraReducers → to update state after API responses
+  So basically, createApi does all that automatically.
+
+
+2.reducerPath: 'pathname'
+  1.This is the key name in redux store under which all Api data is stored.
+  2.It's like name field in the Redux slice
+
+
+3.baseQuery: fetchBaseQuery({baseUrl: 'url'})
+   1.Defines the base URL for all API requests.
+   2.fetchBaseQuery is a small wrapper around the browser’s fetch() API — it automatically handles GET, POST, PUT, DELETE, headers, etc.
+   3.You can also customize it (e.g., add headers or authentication tokens).
+   4.So, baseQuery replaces all the manual fetching logic you write in createAsyncThunk.
+
+
+4.endpoints:
+    This defines all the API endpoints your app uses:
+      1.builder.query() → for GET requests
+      2.builder.mutation() → for POST, PUT, DELETE requests
+
+   Each endpoint automatically gives you:
+     ✅ Data
+     ✅ Loading status (isLoading)
+     ✅ Error info (error)
+     ✅ Auto-caching, re-fetching, etc.
+
+    1.In normal redux, we need createAsyncThunk for fetching, extraReducers for handle pending/fullfilled/rejected, slice for storing data.
+    2.endpoints replaces all of these above.
+
+   how do we use builder.query() && builder.mutation():
+     getUser: builder.query({ query: (id) => \users/${id}` })`
+     addUser: builder.mutation({ query: (body) => ({ url: 'users', method: 'POST', body }) })
+
+
+Important points:
+   
+  1. You can export two main things from this file 👇
+
+     a) The API object itself
+        const githubApi = createApi({...})
+        This is used when adding the reducer and middleware to the store.
+     b) The auto-generated React hooks
+        Each endpoint automatically creates a custom hook.
+        
+        You export them like this:
+           export const { useGetUserQuery, useAddUserMutation } = githubApi;
+        So, you’re exporting:
+           useGetUserQuery → for fetching (GET)
+           useAddUserMutation → for creating/updating/deleting
+
+
+  2.Import in Redux Store (store.js)
+
+     import { configureStore } from '@reduxjs/toolkit';
+     import { githubApi } from './githubApi';  // ✅ import the API object
+
+     export const store = configureStore({
+       reducer: {
+         [githubApi.reducerPath]: githubApi.reducer, // ✅ add API reducer
+       },
+       middleware: (getDefaultMiddleware) =>
+         getDefaultMiddleware().concat(githubApi.middleware), // ✅ add middleware
+    });
+
+       🧠 Why these two are needed:
+            githubApi.reducer → stores data, cache, loading states.
+            githubApi.middleware → handles API requests, caching, and refetching logic.
+
+
+
+  3.Import in react Components:
+     For Query (GET):
+       const { data, error, isLoading } = useGetUserQuery('srinivas');
+     For Mutation (POST/PUT/DELETE):
+       const [addUser, { isLoading }] = useAddUserMutation();
+       const handleAddUser = async () => {
+         await addUser({ name: 'Srinivas', age: 23 });
+       };
+     
