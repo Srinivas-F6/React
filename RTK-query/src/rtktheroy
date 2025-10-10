@@ -62,6 +62,13 @@ The keywords inside the createApi
        3.extraReducers → to update state after API responses
   So basically, createApi does all that automatically.
 
+    createApi() automatically creates several powerful things for you:
+      githubApi.reducer --> is the part of your Redux store that stores all the data, cache, and request states managed by RTK Query.
+      githubApi.middleware  -->  is what performs the actual side effects — the API calls, cache management, invalidation, re-fetching, etc.
+      githubApi.reducerPath --> it is just a unique key
+      githubApi.endpoints  --> is an object that holds all the query and mutation endpoints you define inside createApi().
+      React hooks like   --> RTK Query automatically generates custom React hooks based on your endpoint names.
+
 
 2.reducerPath: 'pathname'
   1.This is the key name in redux store under which all Api data is stored.
@@ -138,4 +145,75 @@ Important points:
        const handleAddUser = async () => {
          await addUser({ name: 'Srinivas', age: 23 });
        };
+
+
+  
+ 4.Redux store:
+    Redux Store as a central container (or database) that holds the entire state of your React app.
+
+    When you use normal Redux Toolkit, your store setup looks like this:
+
+       import { configureStore } from "@reduxjs/toolkit";
+       import userReducer from "./userSlice";
+
+      export const store = configureStore({
+        reducer: {
+        user: userReducer,
+       },
+      });
+
+     🧠 Inside this store:
+        {
+            user: {
+            name: "Srinivas",
+            age: 21
+          }
+        }
+
+
+    Inside the store, RTK Query saves structured data like this:
+      {
+        githubApi: {
+          queries: {
+            'getUser("srinivas")': {
+              status: 'fulfilled',
+              data: { name: 'Srinivas', followers: 12 },
+              error: undefined,
+            },
+            'getRepos("srinivas")': {
+              status: 'pending',
+              data: undefined,
+            }
+          },
+          mutations: {
+            'updateProfile': {
+              status: 'fulfilled',
+              data: { success: true }
+            }
+          },
+          provided: {
+            User: ['srinivas']
+          },
+          subscriptions: {
+           'getUser("srinivas")': { refCount: 1 }
+          }
+        }
+      }
+   
+    Meaning:
+     queries → stores all data fetched via useQuery
+     mutations → stores states for useMutation (POST, PUT, DELETE)
+     provided → tracks cache invalidation relationships
+
+    So the Redux store is not only holding your app’s UI state, but also:
+       Fetched data
+       Loading states
+       Errors 
+       Cache timestamps
+
+
+  5. Middleware
+    middleware is the middle layer between the react components(dispatching actions) and redux reducers(updating state)
+    Middleware can intercept actions before they reach the reducers, so it can perform extra logic like logging, async API calls, or modifying data.
      
+ 
