@@ -212,8 +212,76 @@ Important points:
        Cache timestamps
 
 
-  5. Middleware
+  5. Middleware:
     middleware is the middle layer between the react components(dispatching actions) and redux reducers(updating state)
     Middleware can intercept actions before they reach the reducers, so it can perform extra logic like logging, async API calls, or modifying data.
      
  
+  6. providesTags, invalidatesTags, keepUnusedDataFor :
+     
+    When you fetch data with RTK Query, it automatically stores (caches) that data in Redux.
+       a. But how long should it stay?
+       b. When should it refetch?
+       c. When you add/update/delete something — should it reload old data automatically?
+
+
+    A) provideTags:
+      When a query fetches data, it can be “tagged” with a label — like giving that piece of cache a name.
+        getUsers: builder.query({
+            query: () => '/users',
+            providesTags: ['Users'], // 🏷️ This cache is labeled "Users"
+        })
+
+    B) invalidatesTags:
+      Used in mutations (POST, PUT, DELETE).
+      This change makes some cached data outdated. Invalidate those tags so they get refetched.
+        addUser: builder.mutation({
+          query: (user) => ({
+          url: '/users',
+          method: 'POST',
+          body: user,
+         }),
+        invalidatesTags: ['Users'], // 💣 Invalidate "Users" cache
+      }),
+
+      When you call addUser(), RTK Query will:
+        Mark the Users cache (from getUsers) as stale.
+        Automatically refetch getUsers query.
+        So your UI updates automatically — no manual refetch needed!
+
+    C) keepUnusedDataFor:
+      Controls how long RTK Query keeps unused cache data in memory (default = 60 seconds).
+      getUsers: builder.query({
+        query: () => '/users',
+        keepUnusedDataFor: 300, // ⏳ 5 minutes
+      })
+
+
+
+  7) RTK Query Hook Calling Methods:
+    a)Using the Trigger Function (Recommended):
+     const [registerUser, { data, error, isLoading }] = useRegisterMutation();
+     const handleSubmit = async (e) => {
+          e.preventDefault();
+          try {
+            const response = await registerUser(formData).unwrap();
+            console.log("✅ Registered Successfully:", response);
+          } catch (err) {
+               console.error("❌ Registration Failed:", err);
+            }
+      };
+
+    ✅ Advantages: 
+        You have full control over when the API runs.
+        You can pass dynamic data (form input, parameters, etc.).
+        You can handle errors easily with .unwrap().
+        Works perfectly for forms, button clicks, or conditional calls.
+    💡 Use Case:
+       For mutations (POST, PUT, DELETE) or queries triggered by user action.
+
+
+    1️⃣ Basic Meaning of .unwrap():
+        that function returns a special Promise — not a normal one.
+        It contains metadata (like isLoading, isSuccess, etc.), but it doesn’t directly give you the raw API response or error.
+        It “unwraps” the mutation result into a standard JavaScript Promise that resolves or rejects normally.
+   

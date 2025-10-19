@@ -1,6 +1,6 @@
 import { useGetProductsQuery } from './store/api'
 import { api } from './store/api'
-
+import './App.css'
 
 function App() {
   const { data, error, isLoading } = useGetProductsQuery('products')
